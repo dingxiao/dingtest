@@ -1,2 +1,7 @@
 readme--just for test
 add more staff on browser
+public class Code {
+    public static Object main() throws Throwable {
+        Query q = Query.from(Record.class).where("_type = 00000136-ef2b-dd0c-a776-ef2f1fa40023");
+        return q.select(0,41).getItems();
+    }
