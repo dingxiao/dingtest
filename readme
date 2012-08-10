@@ -5,3 +5,11 @@ public class Code {
         Query q = Query.from(Record.class).where("_type = 00000136-ef2b-dd0c-a776-ef2f1fa40023");
         return q.select(0,41).getItems();
     }
+
+    public static Object main() throws Throwable {
+        Double lat = 33.0392;
+        Double lon = -85.0314;
+        Region region = Region.cartesianCircle(lat, lon, 50.0 / 74.0, 12);
+        Query q = Query.from(Facility.class).where("geoLocation = ?", region).sortClosest("geoLocation", new com.psddev.dari.db.Location(lat, lon));
+        return q.select(0,22).getItems();
+    }
