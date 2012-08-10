@@ -13,3 +13,11 @@ public class Code {
         Query q = Query.from(Facility.class).where("geoLocation = ?", region).sortClosest("geoLocation", new com.psddev.dari.db.Location(lat, lon));
         return q.select(0,22).getItems();
     }
+        public static Object main() throws Throwable {
+        Double lat = 33.0392;
+        Double lon = -85.0314;
+        Region region = Region.cartesianCircle(lat, lon, 50.0 / 74.0, 12);
+        Query q = Query.from(Facility.class).where("geoLocation = ?", region).sortClosest("geoLocation", new com.psddev.dari.db.Location(lat, lon));
+        Query q2 = Query.from(Shelter.class).where("facility/geoLocation = ?", region);//.sortClosest("facility/geoLocation", new com.psddev.dari.db.Location(lat, lon));
+        return q2.select(0,22).getItems();
+    }
