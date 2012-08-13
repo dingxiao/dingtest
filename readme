@@ -21,3 +21,31 @@ public class Code {
         Query q2 = Query.from(Shelter.class).where("facility/geoLocation = ?", region);//.sortClosest("facility/geoLocation", new com.psddev.dari.db.Location(lat, lon));
         return q2.select(0,22).getItems();
     }
+    public static Object main() throws Throwable {
+        Double lat = 33.0392;
+        Double lon = -85.0314;
+        Region region = Region.cartesianCircle(lat, lon, 50.0 / 74.0, 12);
+        //Query q = Query.from(Facility.class).where("* matches *").and("geoLocation = ?", region);//.sortClosest("geoLocation", new com.psddev.dari.db.Location(lat, lon));
+        String[] usstates = {"CT","MD","ME","CA","IL","TX"};
+        HashMap<String, Long> usstates2 = new HashMap<String,Long>();
+        HashMap<String, Long> usstatesPet = new HashMap<String,Long>();
+        Query q = Query.from(Shelter.class);
+        Iterator<Shelter> iterator = q.iterable(90).iterator();
+        while (iterator.hasNext()){
+            Shelter ss = iterator.next();
+            String usst = ss.getForeignId().substring(0,2);
+            if (!usstates2.containsKey(usst)) 
+                usstates2.put(usst, 1L);
+            else
+            usstates2.put(usst, usstates2.get(usst)+1L);
+        }
+       
+        //Map<String,petcounter> carray2 = new HashMap<String,petcounter>();
+        for (String ss: usstates2.keySet()){
+            Query q1 = Query.from(Shelter.class).where("foreignId ^= ?", ss);//.sortClosest("facility/geoLocation", new com.psddev.dari.db.Location(lat, lon));
+            Query q2 = Query.from(Pet.class).where("foreignShelterId ^= ?", ss);
+            usstatesPet.put(ss, q2.count());
+            //carray2.put(ss,q2.count());
+        }
+        return usstatesPet;
+    }
