@@ -49,3 +49,10 @@ public class Code {
         }
         return usstatesPet;
     }
+    
+    
+    SolrDatabase solr = Database.Static.getFirst(SolrDatabase.class);
+solr.deleteByQuery(Query.from(Pet.class));
+
+SqlDatabase sql = Database.Static.getFirst(SqlDatabase.class);
+sql.deleteByQuery(Query.from(Pet.class));
