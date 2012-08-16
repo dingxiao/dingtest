@@ -14,13 +14,14 @@ public class Code {
         return q.select(0,22).getItems();
     }
         public static Object main() throws Throwable {
-        Double lat = 33.0392;
-        Double lon = -85.0314;
-        Region region = Region.cartesianCircle(lat, lon, 50.0 / 74.0, 12);
+          Double lat = 45.3045;//33.0392;
+        Double lon = -93.5718;//-85.0314;
+        Region region = Region.cartesianCircle(lat, lon, 20.0 / 74.0, 12);
         Query q = Query.from(Facility.class).where("geoLocation = ?", region).sortClosest("geoLocation", new com.psddev.dari.db.Location(lat, lon));
-        Query q2 = Query.from(Shelter.class).where("facility/geoLocation = ?", region);//.sortClosest("facility/geoLocation", new com.psddev.dari.db.Location(lat, lon));
-        return q2.select(0,22).getItems();
-    }
+        Query q2 = Query.from(Shelter.class).where("* matches * AND facility/geoLocation = ?", region).sortClosest("facility/geoLocation", new com.psddev.dari.db.Location(lat, lon));
+        Query q3 = Query.from(Pet.class).where("* matches * AND shelter/facility/geoLocation = ?", region).sortClosest("shelter/facility/geoLocation", new com.psddev.dari.db.Location(lat, lon));
+        return q3.select(0,22).getItems();
+ }
     public static Object main() throws Throwable {
         Double lat = 33.0392;
         Double lon = -85.0314;
