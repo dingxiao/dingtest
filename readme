@@ -49,7 +49,19 @@ public class Code {
         }
         return usstatesPet;
     }
-    
+    public static Object main() throws Throwable {
+        Query<Shelter> q = Query.from(Shelter.class).where("foreignId ^= ?", "VT");
+        Map<Shelter, Long> cntMap = new HashMap<Shelter, Long>();
+        for (Shelter s: q.selectAll()){
+            long cnt = Query.from(Pet.class).where("shelter = ?", s).count();
+            if (cnt == 0)
+            cntMap.put(s,cnt);
+        }
+        for (Shelter s: cntMap.keySet()){
+            s.delete();
+        }
+        return cntMap;
+    }
     
     SolrDatabase solr = Database.Static.getFirst(SolrDatabase.class);
 solr.deleteByQuery(Query.from(Pet.class));
