@@ -22,6 +22,13 @@ public class Code {
         Query q3 = Query.from(Pet.class).where("* matches * AND shelter/facility/geoLocation = ?", region).sortClosest("shelter/facility/geoLocation", new com.psddev.dari.db.Location(lat, lon));
         return q3.select(0,22).getItems();
  }
+     public static Object main() throws Throwable {
+        //Query q = Query.from(com.psddev.cms.db.Directory.class).where("path ^= ?", "/shelters");
+        Query q = Query.from(Species.class);
+        q.deleteAll();
+        long cn = q.count();
+        return cn;
+    }
     public static Object main() throws Throwable {
         Double lat = 33.0392;
         Double lon = -85.0314;
