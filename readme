@@ -2,29 +2,43 @@ readme--just for test
 add more staff on browser
 
 use solr 3.6.0 to do geo search
+import com.mmah.vetportal2.test.*;
+import com.mmah.vetportal2.web.*;
+import com.mmah.vetportal2.siebelData.*;
+import com.psddev.dari.db.*;
+import com.psddev.dari.util.*;
+import java.util.*;
+
+public class Code {
     public static Object main() throws Throwable {
+	 String[] statusToshow = {"Active","Inactive","Prospect"};
+	 String[] statusNotToshow = {"Deleted","Suspended"};
+	 String[] supportCountryList = {"USA", null};
     	double lat = 41.9892;
 		double lon = -72.6521;
 		double degree =Region.milesToDegrees(50.0);
-        List<String> searchWords = new ArrayList<String>();
-        searchWords.add("Hospital");
-        searchWords.add("East");
 		//Region for search
 		Region region = Region.sphericalCircle(lat, lon, degree);
 		PaginatedResult<VetClinic> clinicList = null;	
 		Query<VetClinic> clinicQuery = null;	
-		
-		//use search obj, but no geo location in search
-		//may use ObjectType.getInstance(c) to get type, or just use class
+
 		clinicQuery = Query.from(VetClinic.class).
-		where("address/location = ?", region).and("_any matchesAll ?", searchWords);;
-    	//where("address/location = ?", region).
-          //  and("name matches ?", searchWords);
-        //    and("accountProfile matches ?", searchWords);
-		
-        clinicList = clinicQuery.select(0, 11);
+		where("address/location = ?", region).
+		and("accountStatus != ?",Arrays.asList(statusNotToshow)).
+		and("address/country = ?", Arrays.asList(supportCountryList));
+        List<String> searchWords = new ArrayList<String>();
+        searchWords.add("Animal");
+             clinicQuery = clinicQuery.
+					and("_any matchesAll ?", searchWords);
+		clinicQuery = clinicQuery.
+				sortAscending("displayTier").
+				sortClosest("address/location", new com.psddev.dari.db.Location(lat, lon));
+		clinicList = clinicQuery.select(0, 11);
+       
         return clinicList;
+    }
 }
+
 
 public class Code {
     public static Object main() throws Throwable {
