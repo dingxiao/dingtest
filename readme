@@ -1,7 +1,7 @@
 readme--just for test
 add more staff on browser
 
-use missing to check path
+use missing to check path---works in 1.9
 import com.mmah.vetportal2.test.*;
 import com.mmah.vetportal2.web.*;
 import com.mmah.vetportal2.model.*;
@@ -19,7 +19,7 @@ public class Code {
 
 
         //query = query.and("cms.directory.paths != ?", (String)null);
-        query = query.and("cms.directory.paths is not missing");    
+        query = query.and("cms.directory.paths != missing");    
         return query.select(0,11);
     }
 }
