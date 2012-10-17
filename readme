@@ -1,6 +1,29 @@
 readme--just for test
 add more staff on browser
 
+use missing to check path
+import com.mmah.vetportal2.test.*;
+import com.mmah.vetportal2.web.*;
+import com.mmah.vetportal2.model.*;
+import com.psddev.dari.db.*;
+import com.psddev.dari.util.*;
+import java.util.*;
+
+public class Code {
+    public static Object main() throws Throwable {
+        String searchStr = "SLENTROL";
+        List<String> searchTerms = new ArrayList<String>(Arrays.asList(searchStr.trim().split(" ")));
+        Query query = Query.from(SponsoredArticle.class);
+        query.or("* ~= ?", searchTerms);
+        //query.and("* ~= ?", searchTerms);
+
+
+        //query = query.and("cms.directory.paths != ?", (String)null);
+        query = query.and("cms.directory.paths is not missing");    
+        return query.select(0,11);
+    }
+}
+
 use solr 3.6.0 to do geo search
 import com.mmah.vetportal2.test.*;
 import com.mmah.vetportal2.web.*;
