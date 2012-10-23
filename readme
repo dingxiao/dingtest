@@ -2,6 +2,25 @@ readme--just for test
 add more staff on browser
 
 use missing to check path---works in 1.9
+import com.mmah.vetportal2.model.*;
+
+public class Code {
+    public static Object main() throws Throwable {
+        Query<BlogArticle> blogArticleWithTagsQuery = Query.from(BlogArticle.class).where(
+       "tags/speciesTags != missing OR tags/conditionTags != missing OR tags/siteContentTags != missing")
+                        .and("cms.directory.paths != missing");
+        String name = "Dr. Tony Johnson";//"Dr Patty Khuly";
+		Query<BlogArticle> blogQuery0 = Query.from(BlogArticle.class)
+		    	.where(" authors != ?", "missing");
+		Query<BlogArticle> blogQuery1 = Query.from(BlogArticle.class)
+		    	.where(" authors = ?", Query.from(Author.class).where("fullName = ?", name));
+		Query<BlogArticle> blogQuery2 = Query.from(BlogArticle.class) 
+        .where("authors != ? && authors = ?",(Object)"mising", 
+                      Query.from(Author.class).where("fullName = ?", name));
+       //return blogQuery1.select(0,11); //blogArticleWithTagsQuery.select(0,11);
+       return blogArticleWithTagsQuery.select(0,11);
+    }
+}
 import com.mmah.vetportal2.test.*;
 import com.mmah.vetportal2.web.*;
 import com.mmah.vetportal2.model.*;
