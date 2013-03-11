@@ -1,6 +1,33 @@
 readme--just for test
 add more staff on browser
 
+solr query for geo
+roup=com.mmah.vetportal2.siebelData.VetClinic, objectClass=class com.mmah.vetportal2.siebelData.VetClinic, predicate=(address/location equalsany com.psddev.dari.db.Region@3b51ffcb and accountStatus notequalsall [ 'Deleted', 'Suspended' ] and address/country equalsany [ 'USA', '' ] and accountTier notequalsall [ 'Both', 'Consumer' ] and _any matchesany '*'), sorters=[closest { 'address/location', {x=18.4683, y=-66.1061} }], database=null, isResolveToReferenceOnly=false, timeout=null, options=null}
+
+
+{group=com.mmah.vetportal2.siebelData.VetClinic, objectClass=class com.mmah.vetportal2.siebelData.VetClinic, predicate=(address/location equalsany com.psddev.dari.db.Region@55604955 and accountStatus notequalsall [ 'Deleted', 'Suspended' ] and address/country equalsany [ 'USA', '' ] and accountTier equalsany [ 'Both', 'Consumer' ] and _any matchesany '*'), sorters=[closest { 'address/location', {x=18.4683, y=-66.1061} }], database=null, isResolveToReferenceOnly=false, timeout=null, options=null}
+
+
+http://localhost:8080/solr/select?q=*:*&fq=_g_com.mmah.vetportal2.siebelData.VetClinic%2Faddress%2Flocation:[45,-94%20TO%2046,-93]
+http://localhost:8080/solr/select?q=*:*&fq=_g_com.mmah.vetportal2.siebelData.VetClinic%2Faddress%2Flocation:[45.395534999,-122.9178%20TO%2045.496841,-122.8467269269]
+
+http://localhost:8080/solr/select?q=*:*&fq=_g_com.mmah.vetportal2.siebelData.VetClinic%2Faddress%2Flocation:[45.3955349996727%2C-122.91780107308296%20TO%2045.496841,-122.8467269269]
+is same as
+http://localhost:8080/solr/select?q=_g_com.mmah.vetportal2.siebelData.VetClinic%2Faddress%2Flocation:[45.3955349996727%2C-122.91780107308296%20TO%2045.496841,-122.8467269269]&q={!func}geodist()
+
+&q=*:*&sfield=store&pt=45.15,-93.85&fl=name,store,geodist()
+{!func}geodist()&sfield=store&pt=45.15,-93.85&sort=score asc
+
+works to return distance
+http://localhost:8080/solr/select?fq={!bbox}&sfield=_g_com.mmah.vetportal2.siebelData.VetClinic%2Faddress%2Flocation&pt=45.446188%2C-122.882264&d=5.0&sort=score%20asc&&q={!func}geodist%28%29&fl=*,score&rows=71
+works using geodist()--need pt param
+http://localhost:8080/solr/select?fq=%28_g_com.mmah.vetportal2.siebelData.VetClinic%2Faddress%2Flocation%3A%28[45.3955349996727%2C-122.91780107308296+TO+45.4968410003273%2C-122.84672692691706]%29%29&sfield=_g_com.mmah.vetportal2.siebelData.VetClinic%2Faddress%2Flocation&pt=45.446188%2C-122.882264&sort=score%20asc&&q={!func}geodist%28%29&fl=*,score&rows=71
+
+for solr query inside debug use 
+http://localhost:8080/solr/select?q=*:*&fq=_g_com.mmah.vetportal2.siebelData.VetClinic%2Faddress%2Flocation:[45.395534999,-122.9178%20TO%2045.496841,-122.8467]
+
+
+
 use geo search for zip 97007
 import com.mmah.vetportal2.model.*;
 import com.mmah.vetportal2.model.*;
