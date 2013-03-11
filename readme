@@ -1,6 +1,35 @@
 readme--just for test
 add more staff on browser
 
+use geo search for zip 97007
+import com.mmah.vetportal2.model.*;
+import com.mmah.vetportal2.model.*;
+import com.mmah.vetportal2.siebelData.*;
+import com.mmah.vetportal2.web.*;
+import com.psddev.dari.db.*;
+import com.psddev.dari.util.*;
+import java.util.*;
+
+public class Code {
+    public static Object main() throws Throwable {
+        String rad = "3.2";
+		double radius = Double.parseDouble(rad);
+        double lat = 45.446188;
+        double lon = -122.882264;
+
+		double degree = Region.milesToDegrees(radius);
+		//Region for search
+		Region region = Region.sphericalCircle(lat, lon, degree);
+			
+		Query<VetClinic>  q = Query.from(VetClinic.class).
+		where("address/location = ?", region).
+				and("* matches *").
+				sortClosest("address/location", new com.psddev.dari.db.Location(lat, lon));
+        return q.select(0,11);
+    }
+}
+
+
 use missing to check path---works in 1.9
 import com.mmah.vetportal2.model.*;
 
