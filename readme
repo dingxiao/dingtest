@@ -26,7 +26,14 @@ http://localhost:8080/solr/select?fq=%28_g_com.mmah.vetportal2.siebelData.VetCli
 for solr query inside debug use 
 http://localhost:8080/solr/select?q=*:*&fq=_g_com.mmah.vetportal2.siebelData.VetClinic%2Faddress%2Flocation:[45.395534999,-122.9178%20TO%2045.496841,-122.8467]
 
-
+works for dari 2.3 qery
+   public static Object main() throws Throwable {
+         Query query = Query.from(Article.class);
+        //query = query.and("cms.directory.paths != ?", (String)null);
+        query = query.and(com.psddev.cms.db.Directory.Static.hasPathPredicate());//.and("cms.content.updateDate > ?", last) 
+        return query.select(0,11);    
+    }
+    
 
 use geo search for zip 97007
 import com.mmah.vetportal2.model.*;
