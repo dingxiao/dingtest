@@ -55,7 +55,26 @@ works for vetstreet 1.9
         //return query.select(0,11);  
         return tt;
         
-        
+ import com.mmah.vetportal2.test.*;
+import com.mmah.vetportal2.model.*;
+import com.psddev.dari.db.*;
+import com.psddev.dari.util.*;
+import java.util.*;
+import com.psddev.cms.db.Content;
+public class Code {
+    public static Object main() throws Throwable {
+		Query<SyndEntriesForCms> q = Query.from(SyndEntriesForCms.class);
+		String types = "SimpleArticle,BlogArticle,CareGuide,CatBreedDetail,DogBreedDetail,VideoArticle,SponsoredArticle";
+		String title="VSRss " + types + " startAt ";// + startEntries + " maxNum" + pageSize;
+		//q.where("title ^= ?", title);
+        List a = q.selectAll();
+        for (Object c1: a){
+            com.psddev.cms.db.Content c = ( com.psddev.cms.db.Content) c1;
+            c.delete();
+        }
+        return q.count();
+    }
+}       
         
 use geo search for zip 97007
 import com.mmah.vetportal2.model.*;
