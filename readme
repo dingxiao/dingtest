@@ -54,8 +54,33 @@ works for vetstreet 1.9
         String tt = l.getSectionText().toString();
         //return query.select(0,11);  
         return tt;
-        
- import com.mmah.vetportal2.test.*;
+
+import com.mmah.vetportal2.test.*;
+import com.mmah.vetportal2.model.*;
+import com.psddev.dari.db.*;
+import com.psddev.dari.util.*;
+import java.util.*;
+import com.psddev.cms.db.Content;
+public class Code {
+    public static Object main() throws Throwable {
+        Query<Content> query = Query.from(Content.class);
+        query.where("not cms.directory.paths is missing");
+        //query.and("cms.directory.paths ^= ?", "care");
+        List<Content> list = query.selectAll();
+        int careCC = 0;
+        for (Content o: list){
+            Content c = (Content) o;
+            String p = c.getPermalink();
+            if (p != null && p.contains("care")){
+                careCC++;
+            }
+        }
+        return careCC;//query.count();
+    }
+}
+
+
+import com.mmah.vetportal2.test.*;
 import com.mmah.vetportal2.model.*;
 import com.psddev.dari.db.*;
 import com.psddev.dari.util.*;
