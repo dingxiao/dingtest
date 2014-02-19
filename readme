@@ -65,17 +65,40 @@ public class Code {
     public static Object main() throws Throwable {
         Query<Content> query = Query.from(Content.class);
         query.where("not cms.directory.paths is missing");
-        //query.and("cms.directory.paths ^= ?", "care");
+        query.and("typeId = ?", Arrays.asList(SimpleArticle.class, EnhancedSlideShow.class, VideoArticle.class));
         List<Content> list = query.selectAll();
         int careCC = 0;
+        int catCC = 0;
+        int dogCC = 0;
+        int trainCC = 0;
+        int learnCC = 0;
+        
         for (Content o: list){
             Content c = (Content) o;
             String p = c.getPermalink();
-            if (p != null && p.contains("care")){
+            if (p != null && p.startsWith("/care")){
                 careCC++;
             }
+            if (p != null && p.startsWith("/cat")){
+                catCC++;
+            }
+            if (p != null && p.startsWith("/dog")){
+                dogCC++;
+            }
+            if (p != null && p.startsWith("/train")){
+                trainCC++;
+            }
+            if (p != null && p.startsWith("/learn")){
+                learnCC++;
+            }
         }
-        return careCC;//query.count();
+        List<Integer> out = new ArrayList<Integer>();
+        out.add(careCC);
+        out.add(catCC);
+        out.add(dogCC);
+        out.add(trainCC);
+        out.add(learnCC);
+        return out;//query.count();
     }
 }
 
