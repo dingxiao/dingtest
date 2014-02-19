@@ -1,0 +1,42 @@
+create a branch in local and track remote stable
+git checkout -b stable origin/stable
+git checkout -b model_cleanup origin/model_cleanup
+create branch from some commit
+git branch branchname <sha1-of-commit>
+
+You can actually track more than one remote repository using git remote
+git remote add mmah git@github.com:mmah/vetlearn-cms.git
+git fetch mmah
+git branch -a
+git checkout -b mmah_stable mmah/stable
+git checkout -b mmah_master mmah/master
+above give you mmah as another repository
+To see two branch difference
+git diff --name-status master mmah_master
+git diff --stat --color master..branchName
+push to model only
+git push origin model_cleanup
+
+push local master to another branch with force
+git push origin master:stabletest -f
+
+To go back to a early version
+# reset the index to the desired tree
+git reset 56e05fced
+# move the branch pointer back to the previous HEAD
+git reset --soft HEAD@{1}
+git commit -m "Revert to 56e05fced"
+# Update working copy to reflect the new commit
+git reset --hard
+# go back to a given version, get sha
+git reset --hard givensha
+if its a local commit that you haven't pushed elsewhere, take a look at git reset, or even the --amend flag to git commit. You can undo what you've done and get on with your day. Once you've pushed that commit however, you'll want to use revert to create a new commit which rolls back your change. You should never rewrite your repository history using git reset, rebase, etc, once others have incorporated it into their local repositories.
+n a court of law, events can be stricken from the record. Likewise, you can pick specific commits to undo.
+$ git commit -a
+$ git revert 1b6d
+will undo just the commit with the given hash. The revert is recorded as a new commit, which you can confirm by running git log.
+If get error, you will have to resolve the conflicts, mark them as so with git add or git rm and git commit, then push
+To merge feature/1.3
+git checkout dev13
+git merge master
+git pull --rebase
