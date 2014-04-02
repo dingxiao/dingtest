@@ -59,6 +59,26 @@ import com.mmah.vetportal2.test.*;
 import com.mmah.vetportal2.model.*;
 import com.psddev.dari.db.*;
 import com.psddev.dari.util.*;
+import com.psddev.cms.db.*;
+import java.util.*;
+public class Code {
+    public static Object main() throws Throwable {
+        
+
+    Search search = new Search(); // com.psddev.cms.db.Search
+    search.addTypes(SimpleArticle.class, BlogArticle.class,Author.class);
+    search.boostFields(5.0, SimpleArticle.class, "headline");
+    search.boostFields(51.0, Author.class, "fullName");
+    Query q =  search.toQuery("Gina Spadafori dogs");
+    
+    return q.select(0,5);
+    }
+}
+
+import com.mmah.vetportal2.test.*;
+import com.mmah.vetportal2.model.*;
+import com.psddev.dari.db.*;
+import com.psddev.dari.util.*;
 import java.util.*;
 import com.psddev.cms.db.Content;
 public class Code {
