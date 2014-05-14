@@ -38,7 +38,18 @@ works for dari 2.3 qery
         query = query.and(com.psddev.cms.db.Directory.Static.hasPathPredicate()).and("cms.content.updateDate > ?", tenBeforeDate);
         return query.select(0,11);    
     }  
-
+    public static Object main() throws Throwable {
+        String id = "00000145-8980-db33-a57d-fbd626c40000";//vs file
+        
+        UUID uid0 = UUID.fromString(id);
+        //UUID uid = ObjectType.getInstance(id);//.getState().getId();
+        Query q = Query.from(Object.class).where("typeId = ?", uid0);
+        for (Object o: q.select(0,411).getItems()){
+            Record r = (Record)o;
+            r.delete();
+        }
+        return q.count();
+    }
 
 public class Code {
     public static Object main() throws Throwable {
