@@ -28,6 +28,36 @@ http://localhost:8080/solr/select?q=*:*&fq=_g_com.mmah.vetportal2.siebelData.Vet
 
 works for dari 2.3 qery
     public static Object main() throws Throwable {
+        
+        String[] audienceNames = {
+            "SSA_VCA",
+            "SSA_BANFIELD",
+            "SSA_NAVC_EXHIB",
+            "SSA_NAVC_STU",
+            "SSA_NAVC_PM",
+            "SSA_NAVC_TECH",
+            "SSA_NAVC_VET",
+            "SSA_VETLEARN"};
+        
+        List<Audience> audLi = new ArrayList<Audience>();
+        for (String name : audienceNames){
+            Audience aud0 = Query.from(Audience.class).where("name = ?", name).first();
+            audLi.add(aud0);
+            
+        }
+        
+        Query q = Query.from(SectionArticle.class);
+        List<SectionArticle> li = q.select(0,111).getItems();
+  
+        for (SectionArticle s : li){
+            
+            s.setAudience(audLi);
+            s.save();
+        }
+        return li;
+    }
+
+    public static Object main() throws Throwable {
         Query query = Query.from(Article.class);
         String last = "Tue Dec 03 01:40:37 EST 2013";
         Date d = new Date(last);
