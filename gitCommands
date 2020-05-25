@@ -16,6 +16,12 @@ $ git remote -v
 Push the changes in your local repository to GitHub.
 >$git push origin master
 
+you can also create a repository, clone to local tmp
+then copy the .git folder from the temp to your local project folder
+push code to remote by
+$ git add .
+$ git commit -m "Initial commit"
+$ git push origin master
 
 create a branch in local and track remote stable
 git checkout -b stable origin/stable
