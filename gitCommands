@@ -1,3 +1,22 @@
+How to push local project to github
+Create a new repository on GitHub.
+Open Git Bash.
+Change the current working directory to your local project.
+Initialize the local directory as a Git repository. ...
+>$ git init
+Add the files in your new local repository. ...
+>$ git add .
+Commit the files that you've staged in your local repository.
+>$ git commit -m "First commit"
+In the Command prompt, add the URL for the remote repository where your local repository will be pushed.
+>$ git remote add origin <remote repository URL>
+# Sets the new remote
+$ git remote -v
+# Verifies the new remote URL
+Push the changes in your local repository to GitHub.
+>$git push origin master
+
+
 create a branch in local and track remote stable
 git checkout -b stable origin/stable
 git checkout -b model_cleanup origin/model_cleanup
